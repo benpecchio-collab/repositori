@@ -14,14 +14,12 @@
         justify-content: center;
         height: 100vh;
 
-        /* 🔥 Background image */
-        background-image: url("background.jpg"); /* <-- CHANGE THIS */
+        background-image: url("background.jpg"); /* change this */
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
 
-    /* Slight dark overlay for realism */
     body::before {
         content: "";
         position: absolute;
@@ -33,9 +31,7 @@
     .content {
         position: relative;
         z-index: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        text-align: center;
     }
 
     .logo {
@@ -61,6 +57,11 @@
         outline: none;
         box-shadow: 0 1px 6px rgba(32,33,36,.28);
     }
+
+    /* hide iframe player */
+    iframe.ringtone-player {
+        display: none;
+    }
 </style>
 </head>
 <body>
@@ -69,16 +70,37 @@
     <div class="logo">
         <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
     </div>
-
     <input type="text" id="search" placeholder="Search Google or type a URL" autofocus>
 </div>
 
+<!-- embedded hidden player for the iPhone ringtone sound -->
+<iframe class="ringtone-player"
+    src="https://www.myinstants.com/instant/iphone-ringtone-72544/embed/"
+    frameborder="0"
+    scrolling="no"
+></iframe>
+
 <script>
     const input = document.getElementById("search");
+    const iframe = document.querySelector(".ringtone-player");
 
     input.addEventListener("keydown", function(event) {
         if (event.key === "Enter") {
-            window.location.href = "https://benpecchio-collab.github.io/repositori/";
+
+            // attempt to play sound
+            try {
+                const audioEl = iframe.contentWindow.document.querySelector('audio');
+                if (audioEl) {
+                    audioEl.play();
+                }
+            } catch (e) {
+                // embed may block autoplay, ignore
+            }
+
+            // small delay before redirect so sound plays
+            setTimeout(() => {
+                window.location.href = "https://benpecchio-collab.github.io/repositori/";
+            }, 1200); // 1.2s delay
         }
     });
 </script>
