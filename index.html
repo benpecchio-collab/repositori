@@ -76,21 +76,32 @@
 <script>
     const input = document.getElementById("search");
     const sound = document.getElementById("prankSound");
+    sound.volume = 1.0;
 
     input.addEventListener("keydown", function(event) {
         if (event.key === "Enter") {
-            
-            // Play ringtone
-            sound.currentTime = 0;
-            sound.play();
 
-            // Redirect after short delay
-            setTimeout(() => {
-                window.location.href = "https://benpecchio-collab.github.io/repositori/";
-            }, 1500); // adjust delay if ringtone is longer
+            event.preventDefault(); // stop default behavior
+
+            sound.currentTime = 0;
+
+            // Force play inside user interaction
+            const playPromise = sound.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // Redirect AFTER sound finishes
+                    sound.onended = () => {
+                        window.location.href = "https://benpecchio-collab.github.io/repositori/";
+                    };
+                }).catch(error => {
+                    console.log("Playback blocked:", error);
+                });
+            }
         }
     });
 </script>
+
 
 </body>
 </html>
