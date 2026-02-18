@@ -14,7 +14,7 @@
         justify-content: center;
         height: 100vh;
 
-        background-image: url("background.jpg"); /* change this */
+        background-image: url("background.jpg"); /* change if needed */
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -56,11 +56,7 @@
         border: none;
         outline: none;
         box-shadow: 0 1px 6px rgba(32,33,36,.28);
-    }
-
-    /* hide iframe player */
-    iframe.ringtone-player {
-        display: none;
+        font-size: 18px;
     }
 </style>
 </head>
@@ -70,37 +66,28 @@
     <div class="logo">
         <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
     </div>
+
     <input type="text" id="search" placeholder="Search Google or type a URL" autofocus>
 </div>
 
-<!-- embedded hidden player for the iPhone ringtone sound -->
-<iframe class="ringtone-player"
-    src="https://www.myinstants.com/instant/iphone-ringtone-72544/embed/"
-    frameborder="0"
-    scrolling="no"
-></iframe>
+<!-- Hidden audio element -->
+<audio id="prankSound" src="ringtone.mp3"></audio>
 
 <script>
     const input = document.getElementById("search");
-    const iframe = document.querySelector(".ringtone-player");
+    const sound = document.getElementById("prankSound");
 
     input.addEventListener("keydown", function(event) {
         if (event.key === "Enter") {
+            
+            // Play ringtone
+            sound.currentTime = 0;
+            sound.play();
 
-            // attempt to play sound
-            try {
-                const audioEl = iframe.contentWindow.document.querySelector('audio');
-                if (audioEl) {
-                    audioEl.play();
-                }
-            } catch (e) {
-                // embed may block autoplay, ignore
-            }
-
-            // small delay before redirect so sound plays
+            // Redirect after short delay
             setTimeout(() => {
                 window.location.href = "https://benpecchio-collab.github.io/repositori/";
-            }, 1200); // 1.2s delay
+            }, 1500); // adjust delay if ringtone is longer
         }
     });
 </script>
