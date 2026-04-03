@@ -485,26 +485,27 @@
       ctx.stroke();
     }
 
-    function updateTimeScale() {
-      if (keys['ArrowRight']) {
+function updateTimeScale() {
+    if (keys['ArrowRight']) {
         timeScale = Math.min(timeScale + 0.05, 2.0);
         isPaused = false;
         document.getElementById('pauseMsg').style.display = 'none';
-      }
-      else if (keys['ArrowLeft']) {
+    } else if (keys['ArrowLeft']) {
         timeScale = Math.max(timeScale - 0.05, -2.0);
-      }
-      else {
-        if (timeScale !== 1.0) {
-          timeScale = 1.0;
-          isPaused = true;
-          document.getElementById('pauseMsg').style.display = 'block';
+        isPaused = false;
+        document.getElementById('pauseMsg').style.display = 'none';
+    } else {
+        if (timeScale !== 1.0 || !isPaused) {
+            timeScale = 1.0;
+            isPaused = true;
+            document.getElementById('pauseMsg').style.display = 'block';
         }
-      }
-
-      let displayScale = (isPaused) ? 0 : timeScale;
-      speedEl.innerText = displayScale.toFixed(2);
     }
+
+    let displayScale = (isPaused && !keys['ArrowLeft'] && !keys['ArrowRight']) ? 0 : timeScale;
+    speedEl.innerText = displayScale.toFixed(2);
+}
+
 
     function animate() {
       updateTimeScale();
