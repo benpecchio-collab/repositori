@@ -459,10 +459,10 @@
       }
       if (key === 'm') toggleMenu();
       if (isMenuOpen) return;
-      if (key === 'p') {
-        isPaused = !isPaused;
+      if (key === 'p') { 
+        isPaused = !isPaused; 
         timeScale = 1.0;
-        document.getElementById('pauseMsg').style.display = isPaused ? 'block' : 'none';
+        document.getElementById('pauseMsg').style.display = isPaused ? 'block' : 'none'; 
       }
       if (key === 'r') clearParticles(null);
       if (key === '1') setType(null, 'proton');
@@ -485,26 +485,27 @@
       ctx.stroke();
     }
 
-function updateTimeScale() {
-    if (keys['ArrowRight']) {
+    function updateTimeScale() {
+      if (keys['ArrowRight']) {
         timeScale = Math.min(timeScale + 0.05, 2.0);
         isPaused = false;
         document.getElementById('pauseMsg').style.display = 'none';
-    } else if (keys['ArrowLeft']) {
+      } else if (keys['ArrowLeft']) {
         timeScale = Math.max(timeScale - 0.05, -2.0);
         isPaused = false;
         document.getElementById('pauseMsg').style.display = 'none';
-    } else {
-        if (timeScale !== 1.0 || !isPaused) {
-            timeScale = 1.0;
-            isPaused = true;
-            document.getElementById('pauseMsg').style.display = 'block';
+      } else {
+        if (timeScale !== 1.0) {
+          timeScale = 1.0;
+          isPaused = true; 
+          document.getElementById('pauseMsg').style.display = 'block';
         }
+      }
+
+      let displayScale = (isPaused && !keys['ArrowLeft'] && !keys['ArrowRight']) ? 0 : timeScale;
+      speedEl.innerText = displayScale.toFixed(2);
     }
 
-    let displayScale = (isPaused && !keys['ArrowLeft'] && !keys['ArrowRight']) ? 0 : timeScale;
-    speedEl.innerText = displayScale.toFixed(2);
-}
 
 
     function animate() {
